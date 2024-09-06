@@ -37,7 +37,7 @@ def capture_slides(video_path, output_dir, threshold=0.06, frame_skip=85):
         return 0
 
     frame_count = 0
-   _count = 0
+    _count = 0
     prev_frame = None
 
     while True:
