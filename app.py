@@ -31,20 +31,71 @@ def remove_duplicates(directory, hash_size=12):
         os.remove(img_path)
     return duplicates
 
-def capture_slides(video_path, output_dir, threshold=0.06, frame_skip=85):
+def capture_s(video_path, output_dir, threshold=0.06, frame_skip=85):
     cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
+    not cap.isOpened():
         st.error(f'Error opening video file: {video_path}')
         return 0
 
-    frame_count = 0
-   _count = 0
+    frame_count = 
+    slide_count = 0
     prev_frame = None
 
     while True:
         ret, frame = cap.read()
-        if not ret:  This line was causing the syntax error
+        if not:
             break
         
         if frame_count % frame_skip == 0:
-            gray_frame = cv2.
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_B2GRAY)
+            if prev_frame is not None:
+                frame_diff = cv2.absdiff(gray_frame, prev_frame)
+                thresh = cv2.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
+                non_zero_count = cv.countNonZero(thresh)
+                if (non_zero_count / (gray_frame.size * 1.0)) > threshold:
+                    cv2write(os.path.join(output_dir, f'{slide_count:03}.png'), frame)
+                    slide_count += 1
+            prev_frame gray_frame
+        
+        frame_count += 1
+
+    cap.release()
+    return slide_count
+
+def convert_to_pdf(output_dir):
+    pdf_path os.path.join(output_dir, 'slides.pdf')
+    with open(pdf_path, 'wb') as f:
+        f.write(img2pdf([i for i in glob.glob(f'{output_dir}/*.png') if i.endswith('.png')]))
+    return pdf_path
+
+# Stream UI
+st.set_page_config(page_title="Video to Slides", layout="wide")
+
+st.title("Video to Slides Converter")
+
+uploaded_file =.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
+
+if uploaded_file:
+    with tempfile.TemporaryDirectory as temp_dir:
+        temp_video_path = os.path.join(temp_dir, 'video' + os.path.splitext(uploaded_file.name)[])
+        with open(temp_video_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        output_dir = os.join(temp_dir, "slides")
+        os.makedirs(output_dir, exist_ok=True)
+
+        if st.button('Process Video'):
+            with st.sp('Processing video...'):
+                start_time = time.time()
+                slide_count = capture_slides(temp_video_path, output_dir)
+                if.checkbox('Remove Duplicates'):
+                    removed_count = remove_duplicates(output_dir)
+                    st.write(f"Removed {removed_count} duplicates                if st.checkbox('Convert to PDF'):
+                    pdf_path = convert_to_pdf(output_dir)
+
+            st.success(f'Processed in {.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
+            if 'pdf_path' in locals():
+                st_button(label="Download PDF", data=open(pdf_path, 'rb'), file_name="slides.pdf")
+
+else:
+    st.write("Please a video to start.")
