@@ -89,9 +89,10 @@ if uploaded_file:
                 start_time = time.time()
                 slide_count = capture_slides(temp_video_path, output_dir)
                 if st.checkbox('Remove Duplicates'):
-                    removed_count = remove_duplicates(output_dir)
-                    st.write(f"Removed {removed_count} duplicates                if st.checkbox('Convert to PDF'):
-                    pdf_path = convert_to_pdf(output_dir)
+                   removed_count = remove_duplicates(output_dir)
+                   st.write(f"Removed {removed_count} duplicates.")
+                if st.checkbox('Convert to PDF'):
+                   pdf_path = convert_to_pdf(output_dir)
 
             st.success(f'Processed in {.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
             if 'pdf_path' in locals():
