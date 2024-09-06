@@ -1,8 +1,5 @@
-numpy
-opencv-contrib-python
-Pillow
-scipy
-six
-ImageHash
-img2pdf
 streamlit
+opencv-python
+imagehash
+Pillow
+img2pdf
