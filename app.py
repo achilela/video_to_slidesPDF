@@ -94,7 +94,7 @@ if uploaded_file:
                 if st.checkbox('Convert to PDF'):
                    pdf_path = convert_to_pdf(output_dir)
 
-            st.success(f'Processed in {.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
+            st.success(f'Processed in {time.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
             if 'pdf_path' in locals():
                 st_button(label="Download PDF", data=open(pdf_path, 'rb'), file_name="slides.pdf")
 
