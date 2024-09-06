@@ -84,7 +84,7 @@ if uploaded_file:
          output_dir = os.join(temp_dir, "slides")
          os.makedirs(output_dir, exist_ok=True)
 
-        if st.button('Process Video'):
+         if st.button('Process Video'):
             with st.sp('Processing video...'):
                 start_time = time.time()
                 slide_count = capture_slides(temp_video_path, output_dir)
