@@ -31,31 +31,31 @@ def remove_duplicates(directory, hash_size=12):
         os.remove(img_path)
     return duplicates
 
-def capture_s(video_path, output_dir, threshold=0.06, frame_skip=85):
+def capture_slides(video_path, output_dir, threshold=0.06, frame_skip=85):
     cap = cv2.VideoCapture(video_path)
-    not cap.isOpened():
+    if not cap.isOpened():  # Corrected line
         st.error(f'Error opening video file: {video_path}')
         return 0
 
-    frame_count = 
+    frame_count = 0
     slide_count = 0
     prev_frame = None
 
     while True:
         ret, frame = cap.read()
-        if not:
+        if not ret:
             break
         
         if frame_count % frame_skip == 0:
-            gray_frame = cv2.cvtColor(frame, cv2.COLOR_B2GRAY)
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             if prev_frame is not None:
                 frame_diff = cv2.absdiff(gray_frame, prev_frame)
-                thresh = cv2.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
-                non_zero_count = cv.countNonZero(thresh)
+                _, thresh = cv2.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
+                non_zero_count = cv2.countNonZero(thresh)
                 if (non_zero_count / (gray_frame.size * 1.0)) > threshold:
-                    cv2write(os.path.join(output_dir, f'{slide_count:03}.png'), frame)
+                    cv2.imwrite(os.path.join(output_dir, f'{slide_count:03}.png'), frame)
                     slide_count += 1
-            prev_frame gray_frame
+            prev_frame = gray_frame
         
         frame_count += 1
 
