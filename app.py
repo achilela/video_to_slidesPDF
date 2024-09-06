@@ -63,9 +63,9 @@ def capture_slides(video_path, output_dir, threshold=0.06, frame_skip=85):
     return slide_count
 
 def convert_to_pdf(output_dir):
-    pdf_path os.path.join(output_dir, 'slides.pdf')
+    pdf_path = os.path.join(output_dir, 'slides.pdf')  # Added the missing '='
     with open(pdf_path, 'wb') as f:
-        f.write(img2pdf([i for i in glob.glob(f'{output_dir}/*.png') if i.endswith('.png')]))
+        f.write(img2pdf.convert([i for i in glob.glob(f'{output_dir}/*.png') if i.endswith('.png')]))
     return pdf_path
 
 # Stream UI
