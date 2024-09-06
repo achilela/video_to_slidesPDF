@@ -26,71 +26,77 @@ def hash_images(directory, hash_size=8):
 
 def remove_duplicates(directory, hash_size=12):
     hash_dict = hash_images(directory, hash_size)
+    duplicates = len(hash_dict) - 1  # Number of duplicates removed
     for img_path in list(hash_dict.values())[1:]:  # Skip the first image which is kept as original
         os.remove(img_path)
-    return len(hash_dict) - 1  # Number of duplicates removed
+    return duplicates
 
 def capture_slides(video_path, output_dir, threshold=0.06, frame_skip=85):
     cap = cv2.VideoCapture(video_path)
-    if not capOpened():
+    if not cap.isOpened():
         st.error(f'Error opening video file: {video_path}')
         return 0
 
     frame_count = 0
-    _count = 0
+    slide_count = 0
     prev_frame = None
 
     while True:
         ret, frame = cap.read()
-        if not ret:
-           
+        not ret:
+            break
         
         if frame_count % frame_skip == 0:
-            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY            if prev_frame is not None:
+            gray_frame = cv2.cvtColor(frame, cv2_BGR2GRAY)
+            if prev_frame is not None:
                 frame_diff = cv2.absdiff(gray_frame, prev_frame)
-                _, thresh = cv.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
-                non_zero_count = cv2.countNonZeroresh)
-                if (non_zero_count / (gray_frame.size / 1.0)) > threshold:
-                    cv2.imwrite(os.path(output_dir, f'{slide_count:03}.png'), frame)
+ _, thresh = cv2.threshold(frame_diff, 30, 255, cv2.THRESH_BINARY)
+                non_zero_count =2.countNonZero(thresh)
+                if (non_zero_count / (gray_frame.size * 1.0)) > threshold:
+                    cv.imwrite(os.path.join(output_dir, f'{slide_count:03}.png'), frame)
                     slide_count += 1
-            prev_frame = gray_frame
- frame_count += 1
+            prev = gray_frame
+        
+        frame_count += 1
 
     cap.release()
     return slide_count
 
 def convert_to_pdf(output_dir):
-    with open(os.path.join_dir, 'slides.pdf'), 'wb') as f:
-        f.write(img2pdf.convert([i for i in glob.glob(f'{output_dir/*.png') if i.endswith('.png')]))
-    return f'{output_dir}/slides.pdf'
+   _path = os.path.join(output_dir, 'slides.pdf')
+    with open(pdf_path, 'wb') as f:
+        f.write(img2.convert([i for i in glob.glob(f'{output_dir}/*.png') if i.endswith('.png')]))
+    return pdf_path
 
-# Streamlit UI
-st.set_page_config_title="Video to Slides", layout="wide")
+#lit UI
+st.set_page_config(page_title="Video to Slides", layout="wide")
 
 st.title("Video to Slides Converter")
 
-uploaded_file = st.file_uploader("Upload a", type=["mp4", "avi", "mov"])
+uploaded_file st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
+
 if uploaded_file:
-    with tempfile.TemporaryDirectory() as temp_dir:
-        temp_path = os.path.join(temp_dir, 'video' + os.path.splitext(uploaded_file.name)[1])
-        with open(temp_video, "wb") as f:
+    with tempfile.Temporary() as temp_dir:
+        temp_video_path = os.path.join(temp_dir, 'video' + os.path.splitext(uploaded_file.name1])
+        with open(temp_video_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        output_dir = os.path.join(temp_dir, "slides        os.makedirs(output_dir, exist_ok=True)
+        output_dir =.path.join(temp_dir, "slides")
+        os.makedirs(output_dir, exist_ok=True)
 
         if st.button('Process Video'):
             with st.spinner('Processing video...'):
- start_time = time.time()
+                start_time = time.time()
                 slide_count = capture_slides(temp_video_path, output_dir)
-                if st.checkbox('Remove Duplicates                    remove_duplicates(output_dir)
+                st.checkbox('Remove Duplicates'):
+                    removed_count = remove_duplicates(output_dir)
+                    st.write(f"Removed {removed_count}.")
                 if st.checkbox('Convert to PDF'):
                     pdf_path = convert_to_pdf(output_dir)
 
-           .success(f'Processed in {time.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
-            if 'pdf' in locals():
-                st.download_button(label="Download PDF", data=open(pdf_path, 'rb'), file_name="slides.pdf")
-
- # Preview functionality can be added here if needed
+            st.success(f'Processed intime.time() - start_time:.2f} seconds. {slide_count} slides extracted.')
+            if 'pdf_path' in locals():
+               .download_button(label="Download PDF", data=open(pdf_path, 'rb'), file_name="slides.pdf")
 
 else:
-    st.write("Please upload a video to start.")
+    st.write(" upload a video to start.")
