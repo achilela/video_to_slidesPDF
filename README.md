@@ -33,6 +33,6 @@ Interested in AI? Start with [AI Courses by ValonyLabsz](https://valonylabzs.com
 
 <a href="https://valonylabzs.com/courses/">
 <p align="center"> 
-#<img src="https://learnopencv.com/wp-content/uploads/2023/01/AI-Courses-By-OpenCV-Github.png">
+
 </p>
 </a>
