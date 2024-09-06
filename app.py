@@ -73,7 +73,7 @@ st.set_page_config(page_title="Video to Slides", layout="wide")
 
 st.title("Video to Slides Converter")
 
-uploaded_file =.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
+uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
 
 if uploaded_file:
     with tempfile.TemporaryDirectory as temp_dir:
