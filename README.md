@@ -27,12 +27,12 @@ Example:
 python video_2_slides.py -v ./samples/vid_test.mp4 -o output_results --type GMG --convert_to_pdf
 ```
 
-# Built and curated by ValonyLabsz
+# Built by ValonyLabsz
 
 Interested in AI? Start with [AI Courses by ValonyLabsz](https://valonylabzs.com/courses/).
 
 <a href="https://valonylabzs.com/courses/">
 <p align="center"> 
-<img src="https://learnopencv.com/wp-content/uploads/2023/01/AI-Courses-By-OpenCV-Github.png">
+#<img src="https://learnopencv.com/wp-content/uploads/2023/01/AI-Courses-By-OpenCV-Github.png">
 </p>
 </a>
