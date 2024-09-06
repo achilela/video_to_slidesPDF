@@ -77,8 +77,8 @@ uploaded_file = st.file_uploader("Upload a video", type=["mp4", "avi", "mov"])
 
 if uploaded_file:
     with tempfile.TemporaryDirectory as temp_dir:
-        temp_video_path = os.path.join(temp_dir, 'video' + os.path.splitext(uploaded_file.name)[])
-        with open(temp_video_path, "wb") as f:
+         temp_video_path = os.path.join(temp_dir, 'video' + os.path.splitext(uploaded_file.name)[0] + os.path.splitext(uploaded_file.name)[1])
+         with open(temp_video_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
         output_dir = os.join(temp_dir, "slides")
