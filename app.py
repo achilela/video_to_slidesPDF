@@ -81,8 +81,8 @@ if uploaded_file:
          with open(temp_video_path, "wb") as f:
             f.write(uploaded_file.getbuffer())
 
-        output_dir = os.join(temp_dir, "slides")
-        os.makedirs(output_dir, exist_ok=True)
+         output_dir = os.join(temp_dir, "slides")
+         os.makedirs(output_dir, exist_ok=True)
 
         if st.button('Process Video'):
             with st.sp('Processing video...'):
